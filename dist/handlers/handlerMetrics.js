@@ -1,5 +1,13 @@
 import { config } from "../config.js";
 export const handlerMetrics = (req, res) => {
-    res.set("Content-Type", "text/plain; charset=utf-8");
-    res.status(200).send(`Hits: ${config.fileserverHits}`);
+    const html = `
+      <html>
+      <body>
+        <h1>Welcome, Chirpy Admin</h1>
+        <p>Chirpy has been visited ${config.fileserverHits} times!</p>
+      </body>
+    </html>
+  `;
+    res.setHeader("Content-Type", "text/html; charset=utf-8");
+    res.status(200).send(html);
 };
