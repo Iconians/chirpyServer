@@ -1,4 +1,4 @@
-import { timestamp, varchar, uuid, pgTable } from "drizzle-orm/pg-core";
+import { timestamp, varchar, uuid, pgTable, text } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -10,4 +10,19 @@ export const users = pgTable("users", {
   email: varchar("email", { length: 256 }).unique().notNull(),
 });
 
+export const chirps = pgTable("chirps", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  body: text("body").notNull(),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+});
+
 export type NewUser = typeof users.$inferInsert;
+export type NewChirps = typeof chirps.$inferInsert;

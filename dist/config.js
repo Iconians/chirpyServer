@@ -7,5 +7,12 @@ export function envOrThrow(key) {
 }
 export const config = {
     fileserverHits: 0,
-    dbURL: envOrThrow("DB_URL"),
+    db: {
+        url: envOrThrow("DB_URL"),
+        migrationConfig: {
+            migrationsFolder: "./src/db/migrations",
+        },
+    },
+    platform: envOrThrow("PLATFORM"),
+    // dbURL:
 };
