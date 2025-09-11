@@ -14,6 +14,7 @@ import { handlerCreateUser } from "./handlers/handlerUsers.js";
 import { handlerCreateChirp } from "./handlers/createChirp.js";
 import { handlerGetChirps } from "./handlers/handlerGetChirps.js";
 import { handlerGetChirpById } from "./handlers/handlerGetChirpById.js";
+import { handlerLogin } from "./handlers/handlerLogin.js";
 
 async function main() {
   const migrationClient = postgres(config.db.url, { max: 1 });
@@ -35,6 +36,7 @@ async function main() {
   app.post("/admin/reset", handlerReset);
   app.post("/api/validate_chirp", handlerChirps);
   app.post("/api/chirps", handlerCreateChirp);
+  app.post("/api/login", handlerLogin);
 
   app.use(errorHandling);
   app.use("/app", express.static("./src/app"));

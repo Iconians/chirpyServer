@@ -15,6 +15,13 @@
       "when": 1757440452714,
       "tag": "0001_complete_the_spike",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1757607244595,
+      "tag": "0002_lumpy_micromax",
+      "breakpoints": true
     }
   ]
 }

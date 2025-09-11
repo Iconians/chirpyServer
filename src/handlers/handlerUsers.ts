@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { config } from "../config.js";
 import { createUser, deleteUsers } from "../db/queries/users.js";
+import { hashPassword } from "../lib/auth.js";
+import { UserResponse } from "../db/schema.js";
 
 export async function handlerCreateUser(
   req: Request,
@@ -8,19 +10,22 @@ export async function handlerCreateUser(
   next: NextFunction
 ) {
   try {
-    const { email } = req.body;
+    const { email, password } = req.body;
 
-    if (!email || typeof email !== "string") {
-      return res.status(400).json({ error: "Invalid email" });
+    if (!email || !password) {
+      return res.status(400).json({ error: "Email and password are required" });
     }
-
-    const user = await createUser({ email });
+    const hashedPassword = await hashPassword(password);
+    const user = await createUser({ email, hashedPassword });
 
     if (!user) {
       res.status(500).json({ error: "Failed to create user" });
     }
 
-    return res.status(201).json(user);
+    const { hashedPassword: _, ...rest } = user;
+    const userResponse: UserResponse = rest;
+
+    return res.status(201).json(userResponse);
   } catch (err) {
     next(err);
   }
