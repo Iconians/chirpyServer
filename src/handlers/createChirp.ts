@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { createChirp } from "../db/queries/chirps.js";
+import { getBearerToken, validateJWT } from "../lib/auth.js";
+import { config } from "../config.js";
 
 export async function handlerCreateChirp(
   req: Request,
@@ -7,8 +9,10 @@ export async function handlerCreateChirp(
   next: NextFunction
 ) {
   try {
-    console.log("handlerCreateChirp req.body:", req.body);
-    const { body, userId } = req.body;
+    const token = getBearerToken(req);
+    const userId = validateJWT(token, config.jwtSecret);
+
+    const { body } = req.body;
 
     if (!body || typeof body !== "string") {
       return res.status(400).json({ error: "Invalid chirp body" });

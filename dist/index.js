@@ -20,8 +20,8 @@ async function main() {
     await migrate(drizzle(migrationClient), config.db.migrationConfig);
     console.log("Migrations completed");
     const app = express();
-    app.use(express.json());
     const PORT = 8080;
+    app.use(express.json());
     app.use(middlewareMetricsInc);
     app.use(middlewareResponses);
     app.get("/api/healthz", handlerReadiness);

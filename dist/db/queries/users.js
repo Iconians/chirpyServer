@@ -14,5 +14,17 @@ export const getUserByEmail = async (email) => {
     return row || null;
 };
 export async function deleteUsers() {
-    await db.delete(users);
+    console.log("deleteUsers: Starting database delete operation");
+    try {
+        // Try using raw SQL instead of Drizzle ORM
+        const result = await db.execute("DELETE FROM users");
+        console.log("deleteUsers: Database delete operation completed", result);
+        return result;
+    }
+    catch (error) {
+        console.error("deleteUsers: Error with raw SQL, trying Drizzle ORM:", error);
+        const result = await db.delete(users);
+        console.log("deleteUsers: Database delete operation completed with Drizzle", result);
+        return result;
+    }
 }

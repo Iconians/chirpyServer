@@ -11,6 +11,8 @@ export type APIConfig = {
   // dbURL: string;
   db: DBConfig;
   platform: string;
+  jwtSecret: string;
+  jwtDefaultExpiresIn: number;
 };
 
 export function envOrThrow(key: string): string {
@@ -28,5 +30,7 @@ export const config: APIConfig = {
     },
   },
   platform: envOrThrow("PLATFORM"),
+  jwtSecret: envOrThrow("JWT_SECRET"),
+  jwtDefaultExpiresIn: 60 * 60,
   // dbURL:
 };
