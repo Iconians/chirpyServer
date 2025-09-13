@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import crypto from "crypto";
 const SALT_ROUNDS = 10;
 export const hashPassword = async (password) => {
     return bcrypt.hash(password, SALT_ROUNDS);
@@ -40,4 +41,7 @@ export const getBearerToken = (req) => {
         throw new Error("Malformed Authorization header");
     }
     return parts[1].trim();
+};
+export const makeRefreshToken = () => {
+    return crypto.randomBytes(32).toString("hex");
 };

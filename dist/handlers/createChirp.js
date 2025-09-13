@@ -3,8 +3,17 @@ import { getBearerToken, validateJWT } from "../lib/auth.js";
 import { config } from "../config.js";
 export async function handlerCreateChirp(req, res, next) {
     try {
-        const token = getBearerToken(req);
-        const userId = validateJWT(token, config.jwtSecret);
+        let token;
+        let userId;
+        try {
+            token = getBearerToken(req);
+            userId = validateJWT(token, config.jwtSecret);
+        }
+        catch (authError) {
+            return res
+                .status(401)
+                .json({ error: "Missing or invalid Authorization header" });
+        }
         const { body } = req.body;
         if (!body || typeof body !== "string") {
             return res.status(400).json({ error: "Invalid chirp body" });

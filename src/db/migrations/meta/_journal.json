@@ -22,6 +22,13 @@
       "when": 1757607244595,
       "tag": "0002_lumpy_micromax",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1757800120698,
+      "tag": "0003_aromatic_korvac",
+      "breakpoints": true
     }
   ]
 }

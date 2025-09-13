@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import { Request } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
+import crypto from "crypto";
 
 const SALT_ROUNDS = 10;
 
@@ -54,4 +55,8 @@ export const getBearerToken = (req: Request) => {
   }
 
   return parts[1].trim();
+};
+
+export const makeRefreshToken = () => {
+  return crypto.randomBytes(32).toString("hex");
 };

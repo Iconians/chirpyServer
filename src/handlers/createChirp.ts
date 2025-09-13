@@ -9,8 +9,17 @@ export async function handlerCreateChirp(
   next: NextFunction
 ) {
   try {
-    const token = getBearerToken(req);
-    const userId = validateJWT(token, config.jwtSecret);
+    let token: string;
+    let userId: string;
+
+    try {
+      token = getBearerToken(req);
+      userId = validateJWT(token, config.jwtSecret);
+    } catch (authError) {
+      return res
+        .status(401)
+        .json({ error: "Missing or invalid Authorization header" });
+    }
 
     const { body } = req.body;
 

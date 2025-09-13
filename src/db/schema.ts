@@ -1,3 +1,4 @@
+import { createDecipheriv } from "crypto";
 import { timestamp, varchar, uuid, pgTable, text } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
@@ -27,7 +28,23 @@ export const chirps = pgTable("chirps", {
     .defaultNow(),
 });
 
+export const refreshTokens = pgTable("refresh_tokens", {
+  token: text("token").primaryKey(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at")
+    .notNull()
+    .defaultNow()
+    .$onUpdate(() => new Date()),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  expiresAt: timestamp("expires_at").notNull(),
+  revokedAt: timestamp("revoked_at"),
+});
+
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
 export type NewChirps = typeof chirps.$inferInsert;
 export type UserResponse = Omit<User, "hashedPassword">;
+export type RefreshToken = typeof refreshTokens.$inferSelect;
+export type NewRefreshToken = typeof refreshTokens.$inferInsert;
