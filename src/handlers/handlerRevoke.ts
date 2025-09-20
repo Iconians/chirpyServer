@@ -24,7 +24,7 @@ export const handlerRevoke = async (
       .set({ revokedAt: now, updatedAt: now })
       .where(eq(refreshTokens.token, token));
 
-    if (result.rowCount === 0) {
+    if (result.length === 0) {
       return res.status(401).json({ error: "Invalid refresh token" });
     }
 

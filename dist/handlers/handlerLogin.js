@@ -43,6 +43,7 @@ export const handlerLogin = async (req, res, next) => {
             updatedAt: user.updatedAt,
             token,
             refreshToken,
+            isChirpyRed: user.isChirpyRed,
         });
     }
     catch (err) {

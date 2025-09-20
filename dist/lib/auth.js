@@ -45,3 +45,13 @@ export const getBearerToken = (req) => {
 export const makeRefreshToken = () => {
     return crypto.randomBytes(32).toString("hex");
 };
+export const getApiKey = (req) => {
+    const authHeader = req.headers["authorization"];
+    if (!authHeader)
+        return null;
+    const parts = authHeader.split(" ");
+    if (parts.length !== 2 || parts[0] !== "ApiKey") {
+        return null;
+    }
+    return parts[1].trim();
+};

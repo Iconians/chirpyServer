@@ -58,6 +58,7 @@ export const handlerLogin = async (
       updatedAt: user.updatedAt,
       token,
       refreshToken,
+      isChirpyRed: user.isChirpyRed,
     });
   } catch (err) {
     next(err);

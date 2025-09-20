@@ -16,5 +16,6 @@ export const config = {
     platform: envOrThrow("PLATFORM"),
     jwtSecret: envOrThrow("JWT_SECRET"),
     jwtDefaultExpiresIn: 60 * 60,
+    polkaKey: envOrThrow("POLKA_KEY"),
     // dbURL:
 };
